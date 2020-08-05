@@ -10,7 +10,7 @@ import UIKit
 
 class PlatformCell: UICollectionViewCell {
 
-    @IBOutlet weak var cell_label: UILabel!
+    @IBOutlet weak var cellLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -18,6 +18,6 @@ class PlatformCell: UICollectionViewCell {
     }
 
     func setData(data: DetailGamesModel.PlatformGames){
-        cell_label.text = data.platform?.name ?? ""
+        cellLabel.text = data.platform?.name ?? ""
     }
 }

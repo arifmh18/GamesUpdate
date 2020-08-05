@@ -12,6 +12,7 @@ import Kingfisher
 
 class DetailGamesController: UIViewController {
 
+    @IBOutlet weak var detailLoadingPage: UIView!
     @IBOutlet weak var detailImage: UIImageView!
     @IBOutlet weak var detailRelease: UILabel!
     @IBOutlet weak var detailNama: UILabel!
@@ -32,7 +33,7 @@ class DetailGamesController: UIViewController {
         detailPlatformList.delegate = self
         detailPlatformList.dataSource = self
         detailPlatformList.reloadData()
-        
+        detailLoadingPage.isHidden = false
         getData()
     }
     
@@ -42,6 +43,7 @@ class DetailGamesController: UIViewController {
             switch result {
             case .success(let respon):
                 do {
+                    self.detailLoadingPage.isHidden = true
                     let response = try respon.filterSuccessfulStatusCodes()
                     let data = try response.map(DetailGamesModel.self)
                     

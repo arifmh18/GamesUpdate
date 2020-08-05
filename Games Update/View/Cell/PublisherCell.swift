@@ -15,10 +15,10 @@ protocol PublisherCellDelegate : AnyObject {
 
 class PublisherCell: UICollectionViewCell {
 
-    @IBOutlet weak var cell_imagePublisher: UIImageView!
-    @IBOutlet weak var cell_content: UIView!
+    @IBOutlet weak var cellImagePublisher: UIImageView!
+    @IBOutlet weak var cellContent: UIView!
     
-    var judul = ""
+    var title = ""
     var games = [PublisherModel.GamesPublisher]()
     
     weak var delegate : PublisherCellDelegate? = nil
@@ -33,18 +33,18 @@ class PublisherCell: UICollectionViewCell {
     }
 
     func setData(data: PublisherModel.DataPublisher){
-        self.cell_imagePublisher.layer.cornerRadius = self.frame.size.width / 2
-        self.cell_imagePublisher.kf.setImage(with: URL(string: data.image_background ?? ""))
+        self.cellImagePublisher.layer.cornerRadius = self.frame.size.width / 2
+        self.cellImagePublisher.kf.setImage(with: URL(string: data.image_background ?? ""))
         
-        self.judul = data.name ?? ""
+        self.title = data.name ?? ""
         self.games = data.games ?? []
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(actTap))
-        self.cell_content.addGestureRecognizer(tap)
+        self.cellContent.addGestureRecognizer(tap)
         
     }
     
     @objc func actTap(){
-        self.delegate?.toPagePublisher(judul: self.judul, games: self.games)
+        self.delegate?.toPagePublisher(judul: self.title, games: self.games)
     }
 }

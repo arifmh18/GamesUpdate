@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="frn-VB-Abc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="frn-VB-Abc">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -127,9 +127,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ydz-r8-PMX"/>
                     <connections>
-                        <outlet property="beranda_gamesLIst" destination="GKy-NY-qbO" id="chm-cb-Q44"/>
-                        <outlet property="beranda_heightGames" destination="Z5t-a1-KoL" id="QD2-sU-q3C"/>
-                        <outlet property="beranda_publisherList" destination="g3D-Be-QLq" id="UhK-e5-Po5"/>
+                        <outlet property="berandaGamesLIst" destination="GKy-NY-qbO" id="QLn-Ed-XsC"/>
+                        <outlet property="berandaHeightGames" destination="Z5t-a1-KoL" id="dUZ-lq-I93"/>
+                        <outlet property="berandaPublisherList" destination="g3D-Be-QLq" id="NXy-Bg-p7z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -426,12 +426,29 @@
                                     <constraint firstItem="6e8-ni-Mgs" firstAttribute="leading" secondItem="NPO-4R-Xkr" secondAttribute="leading" id="owp-8d-P4z"/>
                                 </constraints>
                             </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JTl-4v-Rit">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="pf1-d9-AUp">
+                                        <rect key="frame" x="188.66666666666666" y="349.66666666666669" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="pf1-d9-AUp" firstAttribute="centerY" secondItem="JTl-4v-Rit" secondAttribute="centerY" id="VOu-aO-1ul"/>
+                                    <constraint firstItem="pf1-d9-AUp" firstAttribute="centerX" secondItem="JTl-4v-Rit" secondAttribute="centerX" id="lvP-Pb-eGg"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="78s-pv-o1h" firstAttribute="bottom" secondItem="JTl-4v-Rit" secondAttribute="bottom" id="4OC-f3-Re4"/>
                             <constraint firstItem="78s-pv-o1h" firstAttribute="trailing" secondItem="NPO-4R-Xkr" secondAttribute="trailing" id="EuJ-Ym-p59"/>
+                            <constraint firstItem="JTl-4v-Rit" firstAttribute="leading" secondItem="78s-pv-o1h" secondAttribute="leading" id="FcO-wA-yVu"/>
                             <constraint firstItem="NPO-4R-Xkr" firstAttribute="leading" secondItem="78s-pv-o1h" secondAttribute="leading" id="TjU-sI-6oh"/>
+                            <constraint firstItem="JTl-4v-Rit" firstAttribute="top" secondItem="78s-pv-o1h" secondAttribute="top" id="UtK-eQ-bUK"/>
                             <constraint firstItem="NPO-4R-Xkr" firstAttribute="top" secondItem="78s-pv-o1h" secondAttribute="top" id="VVd-3l-aSR"/>
+                            <constraint firstItem="78s-pv-o1h" firstAttribute="trailing" secondItem="JTl-4v-Rit" secondAttribute="trailing" id="Xgi-vg-Dyk"/>
                             <constraint firstItem="78s-pv-o1h" firstAttribute="bottom" secondItem="NPO-4R-Xkr" secondAttribute="bottom" id="eX2-PX-1dw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="78s-pv-o1h"/>
@@ -439,6 +456,7 @@
                     <connections>
                         <outlet property="detailDeskripsi" destination="Rru-Gi-HUG" id="UEt-Gk-EL5"/>
                         <outlet property="detailImage" destination="yMK-Bt-fu7" id="IQy-NV-bbT"/>
+                        <outlet property="detailLoadingPage" destination="JTl-4v-Rit" id="cjG-zw-l2G"/>
                         <outlet property="detailNama" destination="tDe-UQ-I2w" id="WnP-of-qu6"/>
                         <outlet property="detailPlatformList" destination="c8W-6B-KT0" id="Jww-IX-FZr"/>
                         <outlet property="detailRating" destination="vMh-4K-PH6" id="kQm-EB-4xR"/>

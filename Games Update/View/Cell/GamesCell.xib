@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -78,22 +78,40 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FWG-UC-edL">
+                        <rect key="frame" x="0.0" y="0.0" width="458" height="100"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="vCY-fp-kkg">
+                                <rect key="frame" x="210.5" y="31.5" width="37" height="37"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="vCY-fp-kkg" firstAttribute="centerY" secondItem="FWG-UC-edL" secondAttribute="centerY" id="9Ar-Oy-nhV"/>
+                            <constraint firstItem="vCY-fp-kkg" firstAttribute="centerX" secondItem="FWG-UC-edL" secondAttribute="centerX" id="qPG-N1-8uq"/>
+                        </constraints>
+                    </view>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstItem="Cfk-00-l77" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="7wg-Vl-Ywq"/>
                 <constraint firstItem="Cfk-00-l77" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Gyc-KG-U0l"/>
+                <constraint firstAttribute="trailing" secondItem="FWG-UC-edL" secondAttribute="trailing" id="Lzi-K0-Pnd"/>
+                <constraint firstAttribute="bottom" secondItem="FWG-UC-edL" secondAttribute="bottom" id="Mfo-j9-bGs"/>
                 <constraint firstAttribute="bottom" secondItem="Cfk-00-l77" secondAttribute="bottom" id="Rub-5e-oEL"/>
                 <constraint firstAttribute="trailing" secondItem="Cfk-00-l77" secondAttribute="trailing" id="SyF-CE-vye"/>
+                <constraint firstItem="FWG-UC-edL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="c4o-jg-7vv"/>
+                <constraint firstItem="FWG-UC-edL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="vrg-nG-lTA"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="458" height="100"/>
             <connections>
-                <outlet property="cell_content" destination="Cfk-00-l77" id="sm0-Uo-Dqf"/>
-                <outlet property="cell_image" destination="0XY-Nb-f6m" id="8eM-Qo-PcE"/>
-                <outlet property="cell_nama" destination="Uck-hd-M1e" id="FQe-f7-doY"/>
-                <outlet property="cell_rating" destination="afR-pE-DSI" id="RsX-3c-e8z"/>
-                <outlet property="cell_released" destination="9gj-j0-w6x" id="GAX-8G-MOT"/>
+                <outlet property="cellContent" destination="Cfk-00-l77" id="kRo-6l-cuN"/>
+                <outlet property="cellImage" destination="0XY-Nb-f6m" id="yMV-ex-51f"/>
+                <outlet property="cellLoadingPage" destination="FWG-UC-edL" id="JdN-3O-3jN"/>
+                <outlet property="cellName" destination="Uck-hd-M1e" id="KzK-a5-oUT"/>
+                <outlet property="cellRating" destination="afR-pE-DSI" id="6qY-7O-GrR"/>
+                <outlet property="cellReleased" destination="9gj-j0-w6x" id="qdx-RB-c9N"/>
             </connections>
             <point key="canvasLocation" x="433.33333333333337" y="169.41964285714286"/>
         </collectionViewCell>

@@ -11,10 +11,10 @@ import Moya
 
 class BerandaController: UIViewController {
 
-    @IBOutlet weak var beranda_publisherList: UICollectionView!
-    @IBOutlet weak var beranda_gamesLIst: UICollectionView!
+    @IBOutlet weak var berandaPublisherList: UICollectionView!
+    @IBOutlet weak var berandaGamesLIst: UICollectionView!
     
-    @IBOutlet weak var beranda_heightGames: NSLayoutConstraint!
+    @IBOutlet weak var berandaHeightGames: NSLayoutConstraint!
     
     var dataPublisher = [PublisherModel.DataPublisher]()
     var dataGames = [ListGamesModel.DataLists]()
@@ -36,13 +36,13 @@ class BerandaController: UIViewController {
         
         let cellG = UINib(nibName: "GamesCell", bundle: nil)
         let cellP = UINib(nibName: "PublisherCell", bundle: nil)
-        beranda_gamesLIst.register(cellG, forCellWithReuseIdentifier: cellGames)
-        beranda_publisherList.register(cellP, forCellWithReuseIdentifier: cellPublisher)
+        berandaGamesLIst.register(cellG, forCellWithReuseIdentifier: cellGames)
+        berandaPublisherList.register(cellP, forCellWithReuseIdentifier: cellPublisher)
         
-        beranda_publisherList.delegate = self
-        beranda_publisherList.dataSource = self
-        beranda_gamesLIst.delegate = self
-        beranda_gamesLIst.dataSource =  self
+        berandaPublisherList.delegate = self
+        berandaPublisherList.dataSource = self
+        berandaGamesLIst.delegate = self
+        berandaGamesLIst.dataSource =  self
         
         getData()
     }
@@ -65,9 +65,9 @@ class BerandaController: UIViewController {
                     self.dataGames = data.results ?? []
                     let size = self.dataGames.count
                     
-                    self.beranda_heightGames.constant = CGFloat(30 + (size * 110))
-                    self.beranda_gamesLIst.isScrollEnabled = false
-                    self.beranda_gamesLIst.reloadData()
+                    self.berandaHeightGames.constant = CGFloat(30 + (size * 110))
+                    self.berandaGamesLIst.isScrollEnabled = false
+                    self.berandaGamesLIst.reloadData()
                 } catch {
                     print("gagal fetch data")
                 }
@@ -82,7 +82,7 @@ class BerandaController: UIViewController {
                     let response = try respon.filterSuccessfulStatusCodes()
                     let data = try response.map(PublisherModel.self)
                     self.dataPublisher = data.results ?? []
-                    self.beranda_publisherList.reloadData()
+                    self.berandaPublisherList.reloadData()
                 } catch {
                     print("gagal fetch data")
                 }
@@ -96,22 +96,22 @@ class BerandaController: UIViewController {
 extension BerandaController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PublisherCellDelegate, GamesCellDelegate {
     func toDetailPage(id: Int) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "detailGame") as! DetailGamesController
-        vc.id = id
-        self.navigationController!.pushViewController(vc, animated: true)
+        let vc = storyboard.instantiateViewController(withIdentifier: "detailGame") as? DetailGamesController
+        vc?.id = id
+        self.navigationController!.pushViewController(vc!, animated: true)
     }
     
     func toPagePublisher(judul: String, games: [PublisherModel.GamesPublisher]) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "publisher") as! PublisherController
-        vc.dataGames = games
-        vc.judul = judul
-        self.navigationController!.pushViewController(vc, animated: true)
+        let vc = storyboard.instantiateViewController(withIdentifier: "publisher") as? PublisherController
+        vc?.dataGames = games
+        vc?.judul = judul
+        self.navigationController!.pushViewController(vc!, animated: true)
 
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == self.beranda_gamesLIst {
+        if collectionView == self.berandaGamesLIst {
             return self.dataGames.count
         } else {
             return self.dataPublisher.count
@@ -119,23 +119,23 @@ extension BerandaController : UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == self.beranda_gamesLIst {
+        if collectionView == self.berandaGamesLIst {
             let data = self.dataGames[indexPath.item]
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellGames, for: indexPath) as! GamesCell
-            cell.setData(data: data)
-            cell.delegate = self
-            return cell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellGames, for: indexPath) as? GamesCell
+            cell?.setData(data: data)
+            cell?.delegate = self
+            return cell!
         } else {
             let data = self.dataPublisher[indexPath.item]
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellPublisher, for: indexPath) as! PublisherCell
-            cell.setData(data: data)
-            cell.delegate = self
-            return cell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellPublisher, for: indexPath) as? PublisherCell
+            cell?.setData(data: data)
+            cell?.delegate = self
+            return cell!
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == self.beranda_publisherList {
+        if collectionView == self.berandaPublisherList {
             return CGSize(width: 40, height: 40)
         } else {
             return CGSize(width: self.view.frame.size.width - 32, height: 100)
