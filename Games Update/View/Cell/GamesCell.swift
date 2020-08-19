@@ -11,19 +11,22 @@ import Kingfisher
 import Moya
 
 protocol GamesCellDelegate : AnyObject {
-    func toDetailPage(id:Int)
+    func toDetailPage(id:Int, data:ListGamesModel.DataLists)
 }
 
 class GamesCell: UICollectionViewCell {
 
-    @IBOutlet weak var cell_image: UIImageView!
-    @IBOutlet weak var cell_released: UILabel!
-    @IBOutlet weak var cell_rating: UILabel!
-    @IBOutlet weak var cell_nama: UILabel!
-    @IBOutlet weak var cell_content: UIView!
+    @IBOutlet weak var cellImage: UIImageView!
+    @IBOutlet weak var cellReleased: UILabel!
+    @IBOutlet weak var cellRating: UILabel!
+    @IBOutlet weak var cellName: UILabel!
+    @IBOutlet weak var cellContent: UIView!
+    @IBOutlet weak var cellLoadingPage: UIView!
     
     var id = 0
     weak var delegate : GamesCellDelegate? = nil
+    var data : ListGamesModel.DataLists? = nil
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         self.delegate = nil
@@ -35,22 +38,24 @@ class GamesCell: UICollectionViewCell {
     }
 
     func setData(data: ListGamesModel.DataLists){
+        cellLoadingPage.isHidden = true
         let thumb = URL(string: data.background_image ?? "")
         let rating = data.rating ?? 0.0
         let release = data.released ?? ""
         
+        self.data = data
         self.id = data.id ?? 0
-        cell_image.kf.setImage(with: thumb)
-        cell_released.text = "Release: \(release)"
-        cell_rating.text = "Rating: \(rating)"
-        cell_nama.text = data.name ?? ""
+        cellImage.kf.setImage(with: thumb)
+        cellReleased.text = "Release: \(release)"
+        cellRating.text = "Rating: \(rating)"
+        cellName.text = data.name ?? ""
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(toDetail))
-        self.cell_content.addGestureRecognizer(tap)
+        self.cellContent.addGestureRecognizer(tap)
     }
     
     @objc func toDetail(){
-        self.delegate?.toDetailPage(id: self.id)
+        self.delegate?.toDetailPage(id: self.id, data: self.data!)
     }
     
     func setDataGamePublisher(data: PublisherModel.GamesPublisher){
@@ -61,14 +66,16 @@ class GamesCell: UICollectionViewCell {
             switch result {
             case .success(let respon):
                 do {
+                    self.cellLoadingPage.isHidden = true
                     let repsonse = try respon.filterSuccessfulStatusCodes()
-                    let data =  try repsonse.map(DetailGamesModel.self)
-                    let thumb = URL(string: data.background_image ?? "")
+                    let dataRes =  try repsonse.map(DetailGamesModel.self)
+                    let thumb = URL(string: dataRes.background_image ?? "")
                     
-                    self.cell_released.text = "Release: \(data.released ?? "")"
-                    self.cell_image.kf.setImage(with: thumb)
-                    self.cell_rating.text = "Rating: \(data.rating ?? 0.0)"
-                    self.cell_nama.text = data.name ?? ""
+                    self.cellReleased.text = "Release: \(dataRes.released ?? "")"
+                    self.cellImage.kf.setImage(with: thumb)
+                    self.cellRating.text = "Rating: \(dataRes.rating ?? 0.0)"
+                    self.cellName.text = dataRes.name ?? ""
+                    self.data = ListGamesModel.DataLists(id: data.id, slug: data.slug, name: data.name, released: dataRes.released, tba: true, background_image: dataRes.background_image, rating: dataRes.rating, rating_top: 5)
                 } catch {
                     print("Gagal Fetch Data")
                 }
@@ -78,6 +85,6 @@ class GamesCell: UICollectionViewCell {
         }
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(toDetail))
-        self.cell_content.addGestureRecognizer(tap)
+        self.cellContent.addGestureRecognizer(tap)
     }
 }

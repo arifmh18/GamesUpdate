@@ -29,11 +29,13 @@ class PublisherController: UIViewController {
 }
 
 extension PublisherController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, GamesCellDelegate {
-    func toDetailPage(id: Int) {
+    func toDetailPage(id: Int, data: ListGamesModel.DataLists) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "detailGame") as! DetailGamesController
-        vc.id = id
-        self.navigationController!.pushViewController(vc, animated: true)
+        let vc = storyboard.instantiateViewController(withIdentifier: "detailGame") as? DetailGamesController
+        vc?.id = id
+        vc?.dataGame = data
+        self.navigationController!.pushViewController(vc!, animated: true)
+
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -42,10 +44,10 @@ extension PublisherController : UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
          let data = self.dataGames[indexPath.item]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellGames, for: indexPath) as! GamesCell
-        cell.setDataGamePublisher(data: data)
-        cell.delegate = self
-        return cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellGames, for: indexPath) as? GamesCell
+        cell?.setDataGamePublisher(data: data)
+        cell?.delegate = self
+        return cell!
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

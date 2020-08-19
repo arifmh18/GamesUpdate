@@ -12,6 +12,7 @@ import Kingfisher
 
 class DetailGamesController: UIViewController {
 
+    @IBOutlet weak var detailLoadingPage: UIView!
     @IBOutlet weak var detailImage: UIImageView!
     @IBOutlet weak var detailRelease: UILabel!
     @IBOutlet weak var detailNama: UILabel!
@@ -22,9 +23,13 @@ class DetailGamesController: UIViewController {
     var dataPlatform = [DetailGamesModel.PlatformGames]()
     var cellString = "cellPlatform"
     var id = 0
+    var dataGame : ListGamesModel.DataLists? = nil
+    private lazy var gamesProvider: GamesFavoriteProvider = { return GamesFavoriteProvider() }()
+    var local = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         navigationItem.title = "Detail Game"
         let cell = UINib(nibName: "PlatformCell", bundle: nil)
@@ -32,8 +37,65 @@ class DetailGamesController: UIViewController {
         detailPlatformList.delegate = self
         detailPlatformList.dataSource = self
         detailPlatformList.reloadData()
+        detailLoadingPage.isHidden = false
         
         getData()
+        
+        getDatabase()
+    }
+    
+    func getDatabase(){
+        gamesProvider.getAllData { (dataGames) in
+            for i in 0 ..< dataGames.count {
+                if self.id == dataGames[i].id {
+                    self.local = true
+                }
+            }
+            
+            if self.local {
+                let customImage = UIImage(systemName: "heart.fill")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                let btnWallet = UIBarButtonItem(image: customImage, style: .plain, target: self, action:#selector(self.favorite))
+                self.navigationItem.rightBarButtonItem = btnWallet
+            } else {
+                let customImage = UIImage(systemName: "heart")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                let btnWallet = UIBarButtonItem(image: customImage, style: .plain, target: self, action:#selector(self.favorite))
+                self.navigationItem.rightBarButtonItem = btnWallet
+            }
+        }
+    }
+    
+    @objc func favorite(){
+        if !local {
+            gamesProvider.createData(dataGame?.id ?? 0, dataGame?.slug ?? "", dataGame?.name ?? "", dataGame?.released ?? "", dataGame?.tba ?? false, dataGame?.background_image ?? "", dataGame?.rating ?? 0.0, dataGame?.rating_top ?? 0) {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Successful", message: "Data Berhasil Disimpan di Favorite", preferredStyle: .alert)
+                    
+                    alert.addAction(UIAlertAction(title: "OK", style: .default) { (action) in
+                        self.local = true
+                        let customImage = UIImage(systemName: "heart.fill")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                        let btnWallet = UIBarButtonItem(image: customImage, style: .plain, target: self, action:#selector(self.favorite))
+                        self.navigationItem.rightBarButtonItem = btnWallet
+                        alert.dismiss(animated: true, completion: nil)
+                    })
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        } else {
+            gamesProvider.deleteData(dataGame?.id ?? 0) {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Successful", message: "Data Berhasil Dihapus dari Favorite", preferredStyle: .alert)
+                    
+                    alert.addAction(UIAlertAction(title: "OK", style: .default) { (action) in
+                        self.local = false
+                        let customImage = UIImage(systemName: "heart")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                        let btnWallet = UIBarButtonItem(image: customImage, style: .plain, target: self, action:#selector(self.favorite))
+                        self.navigationItem.rightBarButtonItem = btnWallet
+                        alert.dismiss(animated: true, completion: nil)
+                    })
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
     }
     
     func getData(){
@@ -42,6 +104,7 @@ class DetailGamesController: UIViewController {
             switch result {
             case .success(let respon):
                 do {
+                    self.detailLoadingPage.isHidden = true
                     let response = try respon.filterSuccessfulStatusCodes()
                     let data = try response.map(DetailGamesModel.self)
                     

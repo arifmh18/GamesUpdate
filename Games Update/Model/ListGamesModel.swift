@@ -15,14 +15,14 @@ struct ListGamesModel : Codable {
     let results : [DataLists]?
     
     struct DataLists : Codable {
-        let id : Int?
-        let slug : String?
-        let name : String?
-        let released : String?
-        let tba : Bool?
-        let background_image : String?
-        let rating : Double?
-        let rating_top : Int?
+        var id : Int?
+        var slug : String?
+        var name : String?
+        var released : String?
+        var tba : Bool?
+        var background_image : String?
+        var rating : Double?
+        var rating_top : Int?
         
     }
 }
