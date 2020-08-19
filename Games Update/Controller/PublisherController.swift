@@ -35,7 +35,6 @@ extension PublisherController : UICollectionViewDataSource, UICollectionViewDele
         vc?.id = id
         vc?.dataGame = data
         self.navigationController!.pushViewController(vc!, animated: true)
-
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
